@@ -1,14 +1,22 @@
 :- dynamic
-    xpositive/2,
-    xnegative/2.
+    	xpositive/2,
+    	xnegative/2.
 
 drink(ice_coffee) :-
-    drink(coffee),
-    weather(warm).
+    	drink(coffee),
+    	weather(warm),
+	no_alergy(lactose).
 
 drink(americano) :-
-    drink(coffee),
-    weather(cold).
+    	drink(coffee),
+    	weather(cold),
+	alergy(lactose).
+
+drink(white_cofee) :-
+    	drink(coffee),
+    	weather(cold),
+	no_alergy(lactose).
+
 
 drink(coffee) :- daytime(morning),
 				tiredness(high).
@@ -20,7 +28,23 @@ drink(beer) :-
     daytime(evening),
     weekend().
 
+drink(camomile) :- 
+	(daytime(afternoon);
+	daytime(evening)),
+	stress(high),
+	company(none),
+	no_alergy(camomile).
+
+drink(mint) :- 		
+	stomach_ache(true),
+	like(hot).
+
+drink(cola) :- 		
+	stomach_ache(true),
+	like(cold).
+
 drink(juice) :- \+daytime(morning), \+daytime(evening).
+
 
 tiredness(high) :- positive(tiredness,high).
 
@@ -32,9 +56,38 @@ daytime(morning) :- positive(it, morning).
 
 daytime(evening) :- positive(it, evening).
 
+daytime(afternoon) :- positive(it, afternoon).
+
 weather(warm) :- positive(weather, warm).
 
-weather(cold) :- \+weather(warm).
+weather(cold) :- negative(weather, warm).
+
+stress(high) :- positive(stress, high).
+
+stress(low) :- negative(stress, high).
+
+company(none) :- positive(company, none).
+
+company(few) :- positive(company, few).
+
+company(one) :- positive(company, one).
+
+stomach_ache(true) :- positive(stomach_ache, sensible).
+
+stomach_ache(false) :- negative(stomach_ache, sensible).
+
+alergy(camomile) :- positive(alergy, camomile).
+
+alergy(lactose) :- positive(alergy, lactose).
+
+no_alergy(camomile) :- negative(alergy, camomile).
+
+no_alergy(lactose) :- negative(alergy, lactose).
+
+like(hot) :- xpositive(hot,1); askLike(hot).
+
+like(cold) :- xpositive(cold,1);askLike(cold).
+
 
 positive(X,Y) :- xpositive(X,Y), !.
 
@@ -51,6 +104,15 @@ ask(X,Y) :- !, format('~w is ~w ? (y/n)~n',[X,Y]),
 				false;
 			    	(Reply = 'y') ->			    	
 			    		remember(X,Y,yes),
+					true.
+
+askLike(X) :- !, format('Do you like ~w drink? (y/n)~n',[X]),
+                    read(Reply),
+                    (Reply = 'n') ->
+                    	remember(X,1,no),
+				false;
+			    	(Reply = 'y') ->			    	
+			    		remember(X,1,yes),
 					true.
                     
 remember(X, Y) :- assertz(xequals(X, Y)).
