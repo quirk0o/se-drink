@@ -1,6 +1,7 @@
 :- dynamic
     	xpositive/2,
-    	xnegative/2.
+    	xnegative/2,
+    	xpositive/1.
 
 drink(ice_coffee) :-
     	drink(coffee),
@@ -235,12 +236,10 @@ start :- drink(X), !,
             
 start :- write('I have no idea what you should drink. Sorry...'), nl, clear_memory.
 
-
-#enable for multiple users
 initialize() :-
     true.
 
-Question(coffee, like).
+question(coffee, like).
 
 
 evalPositive(X, Answer) :-
@@ -249,7 +248,7 @@ evalPositive(X, Answer) :-
 
 evalPositive(X, Answer) :-
     \+xpositive(X),
-    Answer = Question(X, like).
+    Answer = question(X, like).
 
 evalDrink(coffee, Answer) :-
     evalPositive(coffee, Answer).
