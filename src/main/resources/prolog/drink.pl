@@ -234,3 +234,31 @@ start :- drink(X), !,
             nl, clear_memory.
             
 start :- write('I have no idea what you should drink. Sorry...'), nl, clear_memory.
+
+
+#enable for multiple users
+initialize() :-
+    true.
+
+Question(coffee, like).
+
+
+evalPositive(X, Answer) :-
+    xpositive(X),
+    !.
+
+evalPositive(X, Answer) :-
+    \+xpositive(X),
+    Answer = Question(X, like).
+
+evalDrink(coffee, Answer) :-
+    evalPositive(coffee, Answer).
+
+askDrink(Answer) :-
+    evalDrink(X, Answer).
+
+answer(Question, true) :-
+    true.
+
+answer(Question, false) :-
+    true.

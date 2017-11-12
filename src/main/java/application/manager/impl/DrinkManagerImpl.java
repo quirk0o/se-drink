@@ -2,6 +2,8 @@ package application.manager.impl;
 
 import application.manager.DrinkManager;
 import org.jpl7.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.net.URL;
@@ -14,28 +16,32 @@ import java.util.Map;
 
 @Service
 public class DrinkManagerImpl implements DrinkManager{
-    public DrinkManagerImpl(){
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    public DrinkManagerImpl(){
         JPL.init();
 
-        Term load = new Compound("consult", new Term[]{new Atom("/home/wg/Documents/se-drink/prolog/test.pl")});
-        Query x = new Query(load);
-        x.open();
-        System.out.println(x.getSolution());
+        //initialize prolog rules file
+        String prologFilePath = getClass().getResource("/prolog/drink.pl").getPath();
+        Term loadPrologFile = new Compound("consult", new Term[]{new Atom(prologFilePath)});
+        Query loadQuery = new Query(loadPrologFile);
+        loadQuery.open();
 
-        Term goal = new Compound( "teacher_of", new Term[]{new Atom("aristotle")});
-        Query q = new Query( goal );
+        logger.info("Initializing prolog with rule file:" + loadQuery.getSolution());
+    }
 
-        q.open();
+    public void initialize() {
+        Query initializeQuery = new Query(new Compound("initialize"));
+        initializeQuery.open();
+    }
 
-        System.out.println(q.getSolution());
+    public String answerQuestion(String question, String answer) {
+        return null;
+    }
 
-        Term goal2 = new Compound( "teacher_of", new Term[]{new Atom("xsaristotle")});
-        Query q2 = new Query( goal2 );
-
-        q2.open();
-
-        System.out.println(q2.getSolution());
+    public String consult() {
+        return null;
     }
 }
 
