@@ -241,7 +241,6 @@ initialize() :-
 
 question(coffee, like).
 
-
 evalPositive(X, Answer) :-
     xpositive(X),
     !.

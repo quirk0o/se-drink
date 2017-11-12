@@ -5,6 +5,7 @@ import org.jpl7.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -37,11 +38,17 @@ public class DrinkManagerImpl implements DrinkManager{
     }
 
     public String answerQuestion(String question, String answer) {
-        return null;
+        throw new NotImplementedException();
     }
 
     public String consult() {
-        return null;
+        Query consultQuery = new Query(new Compound("askDrink", new Term[]{new Variable("Answer")}));
+        consultQuery.open();
+
+        String answer = consultQuery.getSolution().get("Answer").toString();
+        logger.debug(answer);
+
+        return answer;
     }
 }
 
