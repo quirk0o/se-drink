@@ -22,9 +22,50 @@ drink(white_cofee) :-
 drink(coffee) :- time_of_day(morning),
 				tiredness(high).
 
+drink(ice_tea_peach) :-
+        drink(ice_tea),
+        like(peach).
+
+drink(ice_tea_green) :-
+        drink(ice_tea),
+        like(green).
+
+drink(ice_tea_lemon) :-
+        drink(ice_tea),
+        like(lemon).
+
+drink(ice_tea) :-
+        drink(tea),
+        weather(warm),
+        tiredness(high).
+
+drink(fruit_tea) :-
+        drink(tea),
+        weather(cold),
+        \+like(dark_tea),
+        stomach_ache(false).
+
+drink(green_tea) :-
+        drink(tea),
+        weather(cold),
+        \+like(dark_tea),
+        stomach_ache(true).
+
+drink(earl_grey_tea) :-
+        drink(dark_tea),
+        like(british_style).
+
+drink(tea_with_lemon) :-
+        drink(dark_tea),
+        like(lemon).
+
+drink(dark_tea) :-
+        drink(tea),
+        weather(cold),
+        like(dark_tea).
+
 drink(tea) :- time_of_day(morning),
 				\+tiredness(high).
-
 
 drink(beer) :-
     drink(alcohol),
@@ -53,7 +94,21 @@ drink(cola) :-
 	stomach_ache(true),
 	like(cold).
 
+drink(orange_juice) :-
+    drink(juice),
+    like(orange).
+
+drink(apple_juice) :-
+    drink(juice),
+    like(apple).
+
+drink(lemonade) :-
+    drink(juice),
+    like(lemon).
+
 drink(juice).
+
+drink(water).
 
 tiredness(high) :- positive(tiredness,high).
 
