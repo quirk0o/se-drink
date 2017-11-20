@@ -3,114 +3,114 @@
     	xnegative/2,
     	xpositive/1.
 
-drink(ice_coffee, Answer) :-
-    	drink(coffee, Answer),
-    	weather(warm, Answer),
-	no_alergy(lactose, Answer).
+drink(ice_coffee) :-
+    	drink(coffee),
+    	weather(warm),
+	no_alergy(lactose).
 
-drink(americano, Answer) :-
-    	drink(coffee, Answer),
-    	weather(cold, Answer),
-	alergy(lactose, Answer).
+drink(americano) :-
+    	drink(coffee),
+    	weather(cold),
+	alergy(lactose).
 
-drink(white_cofee, Answer) :-
-    	drink(coffee, Answer),
-    	weather(cold, Answer),
-	no_alergy(lactose, Answer).
+drink(white_cofee) :-
+    	drink(coffee),
+    	weather(cold),
+	no_alergy(lactose).
 
 
-drink(coffee, Answer) :- time_of_day(morning, Answer),
-				tiredness(high, Answer).
+drink(coffee) :- time_of_day(morning),
+				tiredness(high).
 
-drink(ice_tea_peach, Answer) :-
-        drink(ice_tea, Answer),
-        like(peach, Answer).
+drink(ice_tea_peach) :-
+        drink(ice_tea),
+        like(peach).
 
-drink(ice_tea_green, Answer) :-
-        drink(ice_tea, Answer),
-        like(green, Answer).
+drink(ice_tea_green) :-
+        drink(ice_tea),
+        like(green).
 
-drink(ice_tea_lemon, Answer) :-
-        drink(ice_tea, Answer),
-        like(lemon, Answer).
+drink(ice_tea_lemon) :-
+        drink(ice_tea),
+        like(lemon).
 
-drink(ice_tea, Answer) :-
-        drink(tea, Answer),
-        weather(warm, Answer),
-        tiredness(high, Answer).
+drink(ice_tea) :-
+        drink(tea),
+        weather(warm),
+        tiredness(high).
 
-drink(fruit_tea, Answer) :-
-        drink(tea, Answer),
-        weather(cold, Answer),
-        \+like(dark_tea, Answer),
-        stomach_ache(false, Answer).
+drink(fruit_tea) :-
+        drink(tea),
+        weather(cold),
+        \+like(dark_tea),
+        stomach_ache(false).
 
-drink(green_tea, Answer) :-
-        drink(tea, Answer),
-        weather(cold, Answer),
-        \+like(dark_tea, Answer),
-        stomach_ache(true, Answer).
+drink(green_tea) :-
+        drink(tea),
+        weather(cold),
+        \+like(dark_tea),
+        stomach_ache(true).
 
-drink(earl_grey_tea, Answer) :-
-        drink(dark_tea, Answer),
-        like(british_style, Answer).
+drink(earl_grey_tea) :-
+        drink(dark_tea),
+        like(british_style).
 
-drink(tea_with_lemon, Answer) :-
-        drink(dark_tea, Answer),
-        like(lemon, Answer).
+drink(tea_with_lemon) :-
+        drink(dark_tea),
+        like(lemon).
 
-drink(dark_tea, Answer) :-
-        drink(tea, Answer),
-        weather(cold, Answer),
-        like(dark_tea, Answer).
+drink(dark_tea) :-
+        drink(tea),
+        weather(cold),
+        like(dark_tea).
 
-drink(tea, Answer) :- time_of_day(morning, Answer),
-				\+tiredness(high, Answer).
+drink(tea) :- time_of_day(morning),
+				\+tiredness(high).
 
-drink(beer, Answer) :-
-    drink(alcohol, Answer),
-    like(fizzy, Answer),
-    like(bitter, Answer).
+drink(beer) :-
+    drink(alcohol),
+    like(fizzy),
+    like(bitter).
 
-drink(wine, Answer) :- drink(alcohol, Answer).
+drink(wine) :- drink(alcohol).
 
-drink(alcohol, Answer) :- \+weekend().
+drink(alcohol) :- \+weekend().
 
-drink(alcohol, Answer) :- time_of_day(evening); time_of_day(night).
+drink(alcohol) :- time_of_day(evening); time_of_day(night).
 
-drink(camomile, Answer) :- time_of_day(afternoon).
+drink(camomile) :- time_of_day(afternoon).
 
-drink(camomile, Answer) :-
+drink(camomile) :-
 	\+time_of_day(morning),
-	stress(high, Answer),
-	company(none, Answer),
-	no_alergy(camomile, Answer).
+	stress(high),
+	company(none),
+	no_alergy(camomile).
 
-drink(mint, Answer) :-
-	stomach_ache(true, Answer),
+drink(mint) :- 		
+	stomach_ache(true),
 	like(hot).
 
-drink(cola, Answer) :-
-	stomach_ache(true, Answer),
-	like(cold, Answer).
+drink(cola) :- 		
+	stomach_ache(true),
+	like(cold).
 
-drink(orange_juice, Answer) :-
-    drink(juice, Answer),
-    like(orange, Answer).
+drink(orange_juice) :-
+    drink(juice),
+    like(orange).
 
-drink(apple_juice, Answer) :-
-    drink(juice, Answer),
-    like(apple, Answer).
+drink(apple_juice) :-
+    drink(juice),
+    like(apple).
 
-drink(lemonade, Answer) :-
-    drink(juice, Answer),
-    like(lemon, Answer).
+drink(lemonade) :-
+    drink(juice),
+    like(lemon).
 
-drink(juice, Answer).
+drink(juice).
 
-drink(water, Answer).
+drink(water).
 
-tiredness(high, Answer) :- positive(tiredness,high).
+tiredness(high) :- positive(tiredness,high).
 
 weekend() :- day_of_week(X), member(X, [friday, saturday, sunday]).
 
@@ -290,3 +290,28 @@ start :- drink(X), !,
             nl, clear_memory.
             
 start :- write('I have no idea what you should drink. Sorry...'), nl, clear_memory.
+
+initialize() :-
+    true.
+
+question(coffee, like).
+
+evalPositive(X, Answer) :-
+    xpositive(X),
+    !.
+
+evalPositive(X, Answer) :-
+    \+xpositive(X),
+    Answer = question(X, like).
+
+evalDrink(coffee, Answer) :-
+    evalPositive(coffee, Answer).
+
+askDrink(Answer) :-
+    evalDrink(X, Answer).
+
+answer(Question, true) :-
+    true.
+
+answer(Question, false) :-
+    true.
