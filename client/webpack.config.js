@@ -23,6 +23,7 @@ module.exports = {
     historyApiFallback: true,
     publicPath: '/'
   },
+  devtool: 'source-map',
   module: {
     rules: [
       {
@@ -81,7 +82,10 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: ['.js', '.jsx', '.json']
+    extensions: ['.js', '.jsx', '.json'],
+    alias: {
+      '@src': path.resolve(__dirname, 'src')
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({

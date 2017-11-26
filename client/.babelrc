@@ -10,7 +10,8 @@
         "include": ["transform-es2015-classes"]
       }
     ],
-    "react"
+    "react",
+    "stage-0"
   ],
   "plugins": [
     "react-hot-loader/babel",
