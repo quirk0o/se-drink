@@ -1,0 +1,37 @@
+{
+  "presets": [
+    [
+      "env",
+      {
+        "targets": {
+          "chrome": "60"
+        },
+        "modules": false,
+        "include": ["transform-es2015-classes"]
+      }
+    ],
+    "react"
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+    [
+      "transform-class-properties",
+      {
+        "spec": true
+      }
+    ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs",
+        [
+          "transform-class-properties",
+          {
+            "spec": true
+          }
+        ]
+      ]
+    }
+  }
+}
