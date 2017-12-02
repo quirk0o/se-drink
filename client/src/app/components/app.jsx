@@ -2,16 +2,23 @@ import React from 'react'
 
 import 'style-loader!css-loader!semantic-ui-css/semantic.css'
 import './app.scss'
-import QuestionPage from '../../question/components/question-page'
-import AnswerPage from '../../answer/components/answer-page'
+import {QuestionPage} from '@src/question'
+import {AnswerPage} from '@src/answer'
 import {Page} from '@src/base/page'
+import {StartPage} from '@src/start'
+import {Route} from 'react-router-dom'
 
-export default () => (
+const App = () => (
   <Page>
-    <QuestionPage questions={[
-      {id: '1', text: 'Are you tired?', slug: 'tired'},
-      {id: '2', text: 'Do you like fizzy drinks?', slug: 'fizzy'}
-    ]} />
-    <AnswerPage answer={'juice'} />
+    <Route exact path="/" component={StartPage} />
+    <Route exact path="/q/:slug?" component={QuestionPage} />
+    <Route
+      path="/a"
+      render={({location: {state: {answer}}}) => (
+        <AnswerPage answer={answer} />
+      )}
+    />
   </Page>
 )
+
+export default App
