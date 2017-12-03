@@ -1,4 +1,4 @@
-const API_URL = `localhost:8090/api`
+const API_URL = `http://localhost:8090/api`
 
 const CONSULT_URL = `${API_URL}/drink/consult`
 const ANSWER_URL = `${API_URL}/drink/answer`
@@ -48,11 +48,26 @@ const QuestionService = {
     // )
     return fetch(CONSULT_URL)
       .then((response) => response.json())
+      .then((body) => {
+      if(body.type == "question")
+    {
+      body.question = transformQuestion(body.question)
+    }
+      return body
+    })
   },
+
 
   answer (question, answer) {
     // return Promise.resolve('ok')
-    return fetch(ANSWER_URL, {question, answer})
+    return fetch(ANSWER_URL, {
+          method: "POST",
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"question": question, "answer": answer})
+        })
       .then((response) => response.json())
   },
 

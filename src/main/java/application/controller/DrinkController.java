@@ -17,16 +17,19 @@ public class DrinkController {
     @Autowired
     DrinkManager drinkManager;
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/api/drink/clear", method = RequestMethod.GET)
     public void InitConsultEngine(){
         drinkManager.initialize();
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/api/drink/consult", method = RequestMethod.GET)
     public Response Consult(){
         return drinkManager.consult();
     }
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @RequestMapping(value = "/api/drink/answer", method = RequestMethod.POST)
     public String GetDrink(@RequestBody AnswerRequest answer){
         drinkManager.answerQuestion(answer);
