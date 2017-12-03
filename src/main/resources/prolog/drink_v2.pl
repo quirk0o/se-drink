@@ -139,23 +139,23 @@ evalDrink(wine, Answer) :-
 
 evalDrink(alkohol, Answer) :-
     baseEvalDrink(alkohol, [
-        regeval(\+weekend())
+        parameterless((\+weekend()))
     ], Answer).
 
 evalDrink(alkohol, Answer) :-
     baseEvalDrink(alkohol, [
-        regeval(time_of_day(evening));
-        regeval(time_of_day(night))
+        parameterless(time_of_day(evening));
+        parameterless(time_of_day(night))
     ], Answer).
 
 evalDrink(camomile, Answer) :-
     baseEvalDrink(camomile, [
-        regeval(time_of_day(afternoon))
+        parameterless(time_of_day(afternoon))
     ], Answer).
 
 evalDrink(camomile, Answer) :-
     baseEvalDrink(camomile, [
-        regeval(time_of_day(+\afternoon)),
+        parameterless(time_of_day(\+afternoon)),
         regeval(stress(high)),
         regeval(company(none)),
         regeval(no_alergy(camomile))
@@ -214,6 +214,8 @@ weather(cold, Answer, ReturnFlag) :- negative([weather, warm], Answer, ReturnFla
 
 tiredness(high, Answer, ReturnFlag) :- evalPositive([tiredness,high], Answer, ReturnFlag).
 
+weekend() :- day_of_week(X), member(X, [friday, saturday, sunday]).
+
 stress(high, Answer, ReturnFlag) :- evalPositive([stress, high], Answer, ReturnFlag).
 
 stress(low, Answer, ReturnFlag) :- evalNegative([stress, high], Answer, ReturnFlag).
@@ -224,7 +226,7 @@ company(few, Answer, ReturnFlag) :- evalPositive([company, few], Answer, ReturnF
 
 company(one, Answer, ReturnFlag) :- evalPositive([company, one], Answer, ReturnFlag).
 
-stomach_ache(true, Answer, ReturnFlag) :- evalpositive([stomach_ache, sensible], Answer, ReturnFlag).
+stomach_ache(true, Answer, ReturnFlag) :- evalPositive([stomach_ache, sensible], Answer, ReturnFlag).
 
 stomach_ache(false, Answer, ReturnFlag) :- evalNegative([stomach_ache, sensible], Answer, ReturnFlag).
 
@@ -344,8 +346,7 @@ time_of_day(T) :- hour(H),
 
 initialize() :-
     retractall(xpositive(_)),
-    retractall(xnegative(_)),
-    true.
+    retractall(xnegative(_)).
 
 evalPositive(X, _, _) :-
     xpositive(X),

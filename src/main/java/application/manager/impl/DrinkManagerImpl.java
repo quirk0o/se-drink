@@ -41,6 +41,8 @@ public class DrinkManagerImpl implements DrinkManager{
     }
 
     public void initialize() {
+        logger.info("Initialize");
+
         Query initializeQuery = new Query(new Compound("initialize", new Term[0]));
         initializeQuery.open();
     }
