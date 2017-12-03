@@ -20,7 +20,7 @@ baseEvalDrink(Drink, [subeval(Head) | Tail], Answer) :-
         ;   Answer = NewAnswer
     ).
 
-baseEvalDrink(Drink, [Head | Tail], Answer) :-
+baseEvalDrink(Drink, [regeval(Head) | Tail], Answer) :-
     call(Head, Answer, ReturnFlag),
     (ReturnFlag == true
         ->  true
@@ -34,61 +34,68 @@ baseEvalDrink(Drink, [Head | Tail], Answer) :-
 evalDrink(ice_coffee, Answer) :-
     baseEvalDrink(ice_coffee, [
         subeval(coffee),
-        weather(warm),
-        no_alergy(lactose)
+        regeval(weather(warm)),
+        regeval(no_alergy(lactose))
     ], Answer).
 
 evalDrink(americano, Answer) :-
     baseEvalDrink(americano, [
         subeval(coffee),
-        weather(cold),
-        alergy(lactose)
+        regeval(weather(cold)),
+        regeval(alergy(lactose))
     ], Answer).
 
 evalDrink(white_coffee, Answer) :-
     baseEvalDrink(white_coffee, [
         subeval(coffee),
-        weather(cold),
-        no_alergy(lactose)
+        regeval(weather(cold)),
+        regeval(no_alergy(lactose))
     ], Answer).
 
 evalDrink(coffee, Answer) :-
     baseEvalDrink(coffee, [
         parameterless(time_of_day(morning)),
-        tiredness(high)
+        regeval(tiredness(high))
     ], Answer).
 
 evalDrink(ice_tea_peach, Answer) :-
     baseEvalDrink(ice_tea_peach, [
         subeval(ice_tea),
-        like(peach)
+        regeval(like(peach))
     ], Answer).
 
 evalDrink(ice_tea_green, Answer) :-
     baseEvalDrink(ice_tea_green, [
-        subeval(ice_tea_green),
-        like(green)
+        subeval(ice_tea),
+        regeval(like(green))
     ], Answer).
 
 evalDrink(ice_tea_lemon, Answer) :-
     baseEvalDrink(ice_tea_lemon, [
         subeval(ice_tea),
-        like(lemon)
+        regeval(like(lemon))
     ], Answer).
 
 evalDrink(ice_tea, Answer) :-
     baseEvalDrink(ice_tea, [
         subeval(tea),
-        weather(warm),
-        tiredness(high)
+        regeval(weather(warm)),
+        regeval(tiredness(high))
     ], Answer).
 
 evalDrink(tea, Answer) :-
     baseEvalDrink(tea, [
         parameterless(time_of_day(morning)),
-        tiredness(high)
+        regeval(tiredness(high))
     ], Answer).
 
+evalDrink(water, Answer) :-
+    baseEvalDrink(water, [
+        regeval(like(water))
+    ], Answer).
+
+evalDrink(default, Answer) :-
+    baseEvalDrink(none, [], Answer).
 
 weather(warm, _, _) :- season(summer).
 

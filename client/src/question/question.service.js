@@ -1,4 +1,4 @@
-const API_URL = `${process.env.API_URL}/api`
+const API_URL = `localhost:8090/api`
 
 const CONSULT_URL = `${API_URL}/drink/consult`
 const ANSWER_URL = `${API_URL}/drink/answer`
@@ -42,23 +42,23 @@ const answer = 'Latte'
 
 const QuestionService = {
   consult () {
-    return Promise.resolve(answerReady() || i >= questions.length
-      ? {type: 'drink', drinkName: answer}
-      : {type: 'question', question: transformQuestion(questions[i++])}
-    )
-    // return fetch(CONSULT_URL)
-    //   .then((response) => response.json())
+    // return Promise.resolve(answerReady() || i >= questions.length
+    //   ? {type: 'drink', drinkName: answer}
+    //   : {type: 'question', question: transformQuestion(questions[i++])}
+    // )
+    return fetch(CONSULT_URL)
+      .then((response) => response.json())
   },
 
   answer (question, answer) {
-    return Promise.resolve('ok')
-    // return fetch(ANSWER_URL, {question, answer})
-    //   .then((response) => response.json())
+    // return Promise.resolve('ok')
+    return fetch(ANSWER_URL, {question, answer})
+      .then((response) => response.json())
   },
 
   clear () {
-    i = 0
-    // return fetch(CLEAR_URL)
+    // i = 0
+    return fetch(CLEAR_URL)
   }
 }
 

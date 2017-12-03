@@ -69,6 +69,7 @@ public class DrinkManagerImpl implements DrinkManager{
         consultQuery.open();
 
         Term answer = consultQuery.getSolution().get("Answer");
+        logger.info("Consult");
 
         return responseFactory.buildResponse(answer);
     }
