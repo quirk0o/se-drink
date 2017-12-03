@@ -344,7 +344,7 @@ time_of_day(T) :- hour(H),
 */
 
 
-initialize() :-
+clearAllRules() :-
     retractall(xpositive(_)),
     retractall(xnegative(_)).
 

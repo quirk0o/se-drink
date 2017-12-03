@@ -43,16 +43,16 @@ public class DrinkManagerImpl implements DrinkManager{
     public void initialize() {
         logger.info("Initialize");
 
-        Query initializeQuery = new Query(new Compound("initialize", new Term[0]));
-        initializeQuery.open();
+        Query initializeQuery = new Query("clearAllRules");
+
+        logger.info("Rules cleared:" + Boolean.toString(initializeQuery.hasSolution()));
     }
 
     public void answerQuestion(AnswerRequest answer) {
         logger.info("Answer: " + Boolean.toString(answer.isAnswer()));
         List<Term> termList = new LinkedList<>();
         for(int i = 0; i < answer.getQuestion().size() - 1; i++){
-            String sTerm = answer.getQuestion().get(i);
-            termList.add(new Atom(sTerm));
+            termList.add(new Atom(answer.getQuestion().get(i)));
         }
 
         Term question = new Compound("answer", new Term[]{new Compound("question",
@@ -63,7 +63,7 @@ public class DrinkManagerImpl implements DrinkManager{
 
         Query query = new Query(question);
 
-        logger.info(Boolean.toString(query.hasSolution()));
+        logger.info("Question answered: " + Boolean.toString(query.hasSolution()));
     }
 
     public Response consult() {
