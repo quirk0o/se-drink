@@ -83,10 +83,117 @@ evalDrink(ice_tea, Answer) :-
         regeval(tiredness(high))
     ], Answer).
 
+evalDrink(fruit_tea, Answer) :-
+    baseEvalDrink(fruit_tea, [
+        subeval(tea),
+        regeval(weather(cold)),
+        regeval(\+like(dark_tea)),
+        regeval(stomach_ache(false))
+    ], Answer).
+
+evalDrink(green_tea, Answer) :-
+    baseEvalDrink(green_tea, [
+        subeval(tea),
+        regeval(weather(cold)),
+        regeval(\+like(dark_tea)),
+        regeval(stomach_ache(true))
+    ], Answer).
+
+evalDrink(earl_grey_tea, Answer) :-
+    baseEvalDrink(earl_grey_tea, [
+        subeval(dark_tea),
+        regeval(like(british_style))
+    ], Answer).
+
+evalDrink(tea_with_lemon, Answer) :-
+    baseEvalDrink(tea_with_lemon, [
+        subeval(dark_tea),
+        regeval(like(lemon))
+    ], Answer).
+
+evalDrink(dark_tea, Answer) :-
+    baseEvalDrink(dark_tea, [
+        subeval(tea),
+        regeval(weather(cold)),
+        regeval(like(dark_tea))
+    ], Answer).
+
 evalDrink(tea, Answer) :-
     baseEvalDrink(tea, [
         parameterless(time_of_day(morning)),
         regeval(tiredness(high))
+    ], Answer).
+
+
+evalDrink(beer, Answer) :-
+    baseEvalDrink(beer, [
+        subeval(alkohol),
+        regeval(like(fizzy)),
+        regeval(like(bitter))
+    ], Answer).
+
+evalDrink(wine, Answer) :-
+    baseEvalDrink(wine, [
+        subeval(alkohol)
+    ], Answer).
+
+evalDrink(alkohol, Answer) :-
+    baseEvalDrink(alkohol, [
+        regeval(\+weekend())
+    ], Answer).
+
+evalDrink(alkohol, Answer) :-
+    baseEvalDrink(alkohol, [
+        regeval(time_of_day(evening));
+        regeval(time_of_day(night))
+    ], Answer).
+
+evalDrink(camomile, Answer) :-
+    baseEvalDrink(camomile, [
+        regeval(time_of_day(afternoon))
+    ], Answer).
+
+evalDrink(camomile, Answer) :-
+    baseEvalDrink(camomile, [
+        regeval(time_of_day(+\afternoon)),
+        regeval(stress(high)),
+        regeval(company(none)),
+        regeval(no_alergy(camomile))
+    ], Answer).
+
+evalDrink(mint, Answer) :-
+    baseEvalDrink(mint, [
+        regeval(stomach_ache(true)),
+        regeval(like(hot))
+    ], Answer).
+
+evalDrink(cola, Answer) :-
+    baseEvalDrink(cola, [
+        regeval(stomach_ache(true)),
+        regeval(like(cold))
+    ], Answer).
+
+evalDrink(orange_juice, Answer) :-
+    baseEvalDrink(orange_juice, [
+        subeval(juice),
+        regeval(like(orange))
+    ], Answer).
+
+evalDrink(apple_juice, Answer) :-
+    baseEvalDrink(apple_juice, [
+        subeval(juice),
+        regeval(like(apple))
+    ], Answer).
+
+evalDrink(lemonade, Answer) :-
+    baseEvalDrink(lemonade, [
+        subeval(juice),
+        regeval(like(lemon))
+    ], Answer).
+
+evalDrink(juice, Answer) :-
+    baseEvalDrink(juice, [
+        regeval(like(juice))
     ], Answer).
 
 evalDrink(water, Answer) :-
