@@ -49,25 +49,23 @@ const QuestionService = {
     return fetch(CONSULT_URL)
       .then((response) => response.json())
       .then((body) => {
-      if(body.type == "question")
-    {
-      body.question = transformQuestion(body.question)
-    }
-      return body
-    })
+        if (body.type === 'question') {
+          body.question = transformQuestion(body.question)
+        }
+        return body
+      })
   },
-
 
   answer (question, answer) {
     // return Promise.resolve('ok')
     return fetch(ANSWER_URL, {
-          method: "POST",
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({"question": question, "answer": answer})
-        })
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({question, answer})
+    })
       .then((response) => response.json())
   },
 

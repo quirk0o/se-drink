@@ -21,8 +21,10 @@ class QuestionPageContainer extends Component {
     }
   }
 
-  onAnswer = (question, answer) => {
-    QuestionService.answer(question, answer)
+  onAnswer = (answer) => {
+    const {location: {state: {question}}} = this.props
+
+    QuestionService.answer(question.id, answer)
       .then(() => {
         this.consult()
       })
@@ -35,15 +37,17 @@ class QuestionPageContainer extends Component {
     const {location: {state}} = this.props
     const {answer, error} = this.state
 
-    return error
-      ? <Message negative>{error.toString()}</Message>
-      : (answer
-          ? <Redirect to={{pathname: '/a', state: {answer}}} />
-          : (state && state.question
-              ? <QuestionPage question={state.question} onAnswer={this.onAnswer} />
-              : null
-          )
-      )
+    if (error) {
+      return <Message negative>{error.toString()}</Message>
+    }
+
+    if (answer) {
+      return <Redirect to={{pathname: '/a', state: {answer}}} />
+    }
+    
+    return state && state.question
+      ? <QuestionPage question={state.question} onAnswer={this.onAnswer} />
+      : null
   }
 
   consult () {
